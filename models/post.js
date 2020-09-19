@@ -1,3 +1,4 @@
+const { ObjectID } = require("mongodb");
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
@@ -6,6 +7,7 @@ const postSchema = new mongoose.Schema({
     contentType: String,
   },
   caption: {
+    required: true,
     type: String,
     maxlength: 200,
     trim: true,
@@ -17,6 +19,10 @@ const postSchema = new mongoose.Schema({
   likes: {
     type: Array,
     default: [],
+  },
+  user: {
+    type: ObjectID,
+    ref: "User",
   },
 });
 

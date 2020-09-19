@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
     photo: {
       data: Buffer,
       contentType: String,
@@ -29,6 +37,10 @@ const userSchema = new mongoose.Schema(
     encry_password: {
       type: String,
       required: true,
+    },
+    posts: {
+      type: Array,
+      default: [],
     },
     friends: {
       type: Array,
