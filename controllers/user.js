@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const formidable = require("formidable");
 const _ = require("lodash");
 
 exports.getUserById = (req, res, next, id) => {

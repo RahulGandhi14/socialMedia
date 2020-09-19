@@ -1,12 +1,10 @@
 import React from "react";
-import Base from "./Base";
+import PostContent from "../user/helper/PostContent";
 
 const Feed = () => {
   return (
     <div>
-      <Base>
-        <h1>Hello</h1>
-      </Base>
+      <PostContent />
     </div>
   );
 };

@@ -111,8 +111,9 @@ exports.signin = (req, res) => {
     res.cookie("token", token, { expire: new Date() + 9999 });
 
     //Response to frontEnd
-    const { _id, firstname, lastname, email } = user;
-    return res.json({ token, user: { _id, firstname, lastname, email } });
+    const { _id, firstname, lastname, email, city } = user;
+    console.log(city);
+    return res.json({ token, user: { _id, firstname, lastname, email, city } });
   });
 };
 
@@ -125,13 +126,15 @@ exports.signout = (req, res) => {
 
 //MIDDLEWARES
 exports.isSignedIn = expressJWT({
-  algorithms: ["RS256"],
   secret: process.env.SECRET,
+  algorithms: ["HS256"],
   userProperty: "auth",
 });
 
 exports.isAuthenticated = (req, res, next) => {
-  let checker = req.profile && req.auth && req.profile._id === req.auth._id;
+  // console.log(`PROFILE:${req.profile._id}`);
+  // console.log(`AUTH:${req.auth._id}`);
+  let checker = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!checker) {
     return res.status(403).json({
       error: "ACCESS DENIED!",

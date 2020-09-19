@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { signup } from "../authHelper";
-import Base from "../core/Base";
+import React, { useState, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { isAuthenticated } from "../../authHelper";
+import Base from "../../core/Base";
+import { getUser, updateUser } from "./userapicalls";
 
-const Signup = () => {
+const UpdateUser = () => {
+  const { user, token } = isAuthenticated();
+
   const [values, setValues] = useState({
     firstname: "",
     lastname: "",
-    email: "",
-    password: "",
     photo: "",
     city: "",
     error: "",
@@ -16,16 +17,27 @@ const Signup = () => {
     formData: new FormData(),
   });
 
-  const {
-    firstname,
-    lastname,
-    email,
-    password,
-    city,
-    error,
-    success,
-    formData,
-  } = values;
+  const { firstname, lastname, city, error, success, formData } = values;
+
+  const preload = (userId) => {
+    getUser(userId).then((data) => {
+      if (data?.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          city: data.city,
+          formData: new FormData(),
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    preload(user._id);
+  }, []);
 
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
@@ -37,7 +49,7 @@ const Signup = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "" });
-    signup(formData)
+    updateUser(user._id, formData, token)
       .then((data) => {
         if (data?.error) {
           setValues({ ...values, error: data.error, success: false });
@@ -46,8 +58,6 @@ const Signup = () => {
             ...values,
             firstname: "",
             lastname: "",
-            email: "",
-            password: "",
             city: "",
             error: "",
             success: true,
@@ -93,24 +103,6 @@ const Signup = () => {
               />
             </div>
             <div className="form-group">
-              <lable className="text-dark">Email</lable>
-              <input
-                type="email"
-                onChange={handleChange("email")}
-                className="form-control"
-                value={email}
-              />
-            </div>
-            <div className="form-group">
-              <lable className="text-dark">Password</lable>
-              <input
-                type="password"
-                onChange={handleChange("password")}
-                className="form-control"
-                value={password}
-              />
-            </div>
-            <div className="form-group">
               {/* <lable className="text-dark">City</lable> */}
               <select onChange={handleChange("city")} className="form-control">
                 <option value="">Select City</option>
@@ -138,10 +130,7 @@ const Signup = () => {
             className="alert alert-success text-center"
             style={{ display: success ? "" : "none" }}
           >
-            <h5>
-              New account is successfully created. Please{" "}
-              <Link to="/signin">Login Here</Link>
-            </h5>
+            <h5>Your account details has been updated!</h5>
           </div>
         </div>
       </div>
@@ -156,7 +145,7 @@ const Signup = () => {
             className="alert alert-danger text-center"
             style={{ display: error ? "" : "none" }}
           >
-            {error}
+            <h5>Failed to update: {error}</h5>
           </div>
         </div>
       </div>
@@ -179,4 +168,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default UpdateUser;

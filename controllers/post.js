@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 const formidable = require("formidable");
 const fs = require("fs"); //fs=filesystem
 const _ = require("lodash");
@@ -17,6 +18,7 @@ exports.getPostById = (req, res, next, id) => {
 };
 
 exports.createPost = (req, res) => {
+  console.log("INSIDE CREATE POST");
   let form = formidable.IncomingForm();
   form.keepExtensions = true;
 
@@ -60,6 +62,19 @@ exports.createPost = (req, res) => {
         });
       }
       post.photo = undefined;
+      let id = post._id;
+      User.findOneAndUpdate(
+        { _id: req.profile._id },
+        { $push: { posts: { _id: id } } },
+        { new: true },
+        (err, update) => {
+          if (err) {
+            return res.status(400).json({
+              error: "UNABLE TO SAVE INTO POSTS LIST",
+            });
+          }
+        }
+      );
       res.json(post);
     });
   });
