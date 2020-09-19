@@ -1,18 +1,19 @@
 import React from "react";
 import { API } from "../../backend";
 
-const ImageHelper = ({ user }) => {
-  const imageUrl = user
-    ? `${API}/user/photo/${user._id}`
-    : "https://images.pexels.com/photos/3577561/pexels-photo-3577561.jpeg?cs=srgb&dl=pexels-hitesh-choudhary-3577561.jpg&fm=jpg";
+const ImageHelper = ({ obj, getFor }) => {
+  const imageUrl =
+    getFor === "user"
+      ? `${API}/user/photo/${obj._id}`
+      : `${API}/post/photo/${obj._id}`;
 
   return (
-    <div className="">
+    <div>
       <img
         src={imageUrl}
         alt="photo"
         style={{ maxHeight: "100%", maxWidth: "100%" }}
-        className="mb-3 rounded"
+        className="rounded"
       />
     </div>
   );

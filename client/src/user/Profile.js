@@ -44,7 +44,7 @@ const Profile = () => {
       <div className="row">
         <div className="col-3">
           <div className="card">
-            <ImageHelper className="card-img-top" user={user} />
+            <ImageHelper className="card-img-top" obj={user} getFor="user" />
             <div className="card-body">
               <h4 className="card-title">
                 {firstname} {lastname}

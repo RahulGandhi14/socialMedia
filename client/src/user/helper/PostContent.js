@@ -10,7 +10,6 @@ const PostContent = () => {
     error: "",
     success: false,
   });
-  const [forceUpdate, setForceUpdate] = useState(0);
 
   const { user, token } = isAuthenticated();
 
@@ -36,8 +35,6 @@ const PostContent = () => {
             caption: "",
             success: true,
           });
-          forceUpdate += 1;
-          setForceUpdate({ forceUpdate });
         }
       })
       .catch((err) => console.log(err));

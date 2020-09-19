@@ -6,12 +6,13 @@ import Profile from "./user/Profile";
 import Signup from "./user/Signup";
 import Feed from "./core/Feed";
 import UpdateUser from "./user/helper/UpdateUser";
+import Home from "./core/Home";
 
 const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Feed} />
+        <Route path="/" exact component={Home} />
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
         <PrivateRoute path="/user/profile" exact component={Profile} />

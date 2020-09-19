@@ -20,8 +20,8 @@ router.param("postId", getPostById);
 router.post("/post/create/:userId", isSignedIn, isAuthenticated, createPost);
 router.get("/post/:postId", isSignedIn, getPost);
 router.get("/posts", isSignedIn, getAllPosts);
-router.get("/posts/:userId", isSignedIn, getAllPostsByUserId);
-router.get("/post/photo/:postId", isSignedIn, photo);
+router.get("/posts/:userId", isSignedIn, isAuthenticated, getAllPostsByUserId);
+router.get("/post/photo/:postId", photo);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
 
