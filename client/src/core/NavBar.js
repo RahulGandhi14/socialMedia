@@ -54,7 +54,8 @@ const NavBar = ({ history }) => (
       {isAuthenticated() && (
         <li className="nav-item">
           <span
-            className="nav-link text-warning"
+            style={{ cursor: "pointer" }}
+            className="nav-link text-danger"
             onClick={() => {
               signout(() => {
                 history.push("/");

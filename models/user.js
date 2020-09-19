@@ -26,10 +26,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    state: {
-      type: String,
-      required: true,
-    },
     photo: {
       data: Buffer,
       contentType: String,
@@ -38,6 +34,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    salt: String,
     posts: {
       type: Array,
       default: [],

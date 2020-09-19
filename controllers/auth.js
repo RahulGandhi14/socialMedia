@@ -4,9 +4,10 @@ const expressJWT = require("express-jwt");
 const jwt = require("jsonwebtoken");
 const formidable = require("formidable");
 const fs = require("fs"); //fs=filesystem
-const user = require("../models/user");
 
 exports.signup = (req, res) => {
+  console.log("SINGUP FORM:");
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -24,15 +25,27 @@ exports.signup = (req, res) => {
       });
     }
 
-    const { firstname, lastname, email, city, state } = fields;
+    const { firstname, lastname, email, city, password } = fields;
 
-    if (!city) {
+    if (!firstname || firstname.length < 3) {
+      return res.status(400).json({
+        error: "Please Enter firstname!",
+      });
+    } else if (!lastname || lastname.length < 3) {
+      return res.status(400).json({
+        error: "Please Enter lastname!",
+      });
+    } else if (!email) {
+      return res.status(400).json({
+        error: "Please Enter Email!",
+      });
+    } else if (!password) {
+      return res.status(400).json({
+        error: "Please Enter password!",
+      });
+    } else if (!city) {
       return res.status(400).json({
         error: "Please select the city!",
-      });
-    } else if (!state) {
-      return res.status(400).json({
-        error: "Please select the state!",
       });
     } else if (!files.photo) {
       return res.status(400).json({
@@ -40,7 +53,7 @@ exports.signup = (req, res) => {
       });
     }
 
-    let User = new User(fields);
+    let user = new User(fields);
 
     if (files.photo) {
       if (files.photo.size > 3000000) {
@@ -66,6 +79,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   const errors = validationResult(req);
+
   const { email, password } = req.body;
 
   if (!errors.isEmpty()) {
@@ -86,8 +100,8 @@ exports.signin = (req, res) => {
       });
     }
     if (!user.authenticate(password)) {
-      return res.status(400).json({
-        error: "Invalid EmailID or Password!",
+      return res.status(401).json({
+        error: "Email and Password do not match",
       });
     }
 

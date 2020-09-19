@@ -11,7 +11,6 @@ const Signup = () => {
     password: "",
     photo: "",
     city: "",
-    state: "",
     error: "",
     success: false,
     formData: new FormData(),
@@ -23,7 +22,6 @@ const Signup = () => {
     email,
     password,
     city,
-    state,
     error,
     success,
     formData,
@@ -51,7 +49,6 @@ const Signup = () => {
             email: "",
             password: "",
             city: "",
-            state: "",
             error: "",
             success: true,
           });
@@ -80,6 +77,7 @@ const Signup = () => {
             <div className="form-group">
               <lable className="text-dark">First-Name</lable>
               <input
+                type="text"
                 onChange={handleChange("firstname")}
                 className="form-control"
                 value={firstname}
@@ -88,6 +86,7 @@ const Signup = () => {
             <div className="form-group">
               <lable className="text-dark">Last-Name</lable>
               <input
+                type="text"
                 onChange={handleChange("lastname")}
                 className="form-control"
                 value={lastname}
@@ -96,6 +95,7 @@ const Signup = () => {
             <div className="form-group">
               <lable className="text-dark">Email</lable>
               <input
+                type="email"
                 onChange={handleChange("email")}
                 className="form-control"
                 value={email}
@@ -104,6 +104,7 @@ const Signup = () => {
             <div className="form-group">
               <lable className="text-dark">Password</lable>
               <input
+                type="password"
                 onChange={handleChange("password")}
                 className="form-control"
                 value={password}
@@ -119,15 +120,7 @@ const Signup = () => {
                 <option value="rajkot">Rajkot</option>
               </select>
             </div>
-            <div className="form-group">
-              {/* <lable className="text-dark">State</lable> */}
-              <select onChange={handleChange("state")} className="form-control">
-                <option value="">Select State</option>
-                <option value="gujarat">Gujarat</option>
-                <option value="maharastra">Maharastra</option>
-                <option value="delhi">Delhi</option>
-              </select>
-            </div>
+
             <button onClick={onSubmit} className="btn btn-primary btn-block">
               Submit
             </button>

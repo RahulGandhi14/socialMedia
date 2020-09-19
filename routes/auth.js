@@ -1,22 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
 const { signin, signout, signup } = require("../controllers/auth");
 
 router.post(
   "/signup",
-  [
-    check("firstname", "name should be atleast 3 chars long").isLength({
-      min: 3,
-    }),
-    check("lastname", "name should be atleast 3 chars long").isLength({
-      min: 3,
-    }),
-    check("password", "password should be atleast 3 chars long").isLength({
-      min: 3,
-    }),
-    check("email", "email is required").isEmail(),
-  ],
+  // [
+  //   body("city", "Select a city").isEmpty(),
+  //   body("email", "Invalid Email Address").isEmail(),
+  //   body("password").isLength({ min: 3 }),
+  // ],
   signup
 );
 
