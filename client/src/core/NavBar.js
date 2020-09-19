@@ -1,12 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { isAuthenticated, signout } from "../authHelper";
 
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
-    return { color: "#2ecc72" };
+    return { color: "#0000FF" };
   } else {
-    return { color: "#FFFFFF" };
+    return { color: "#000000" };
   }
 };
 

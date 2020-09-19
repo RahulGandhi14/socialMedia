@@ -111,6 +111,7 @@ exports.signout = (req, res) => {
 
 //MIDDLEWARES
 exports.isSignedIn = expressJWT({
+  algorithms: ["RS256"],
   secret: process.env.SECRET,
   userProperty: "auth",
 });

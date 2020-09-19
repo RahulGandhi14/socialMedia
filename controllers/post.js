@@ -70,6 +70,10 @@ exports.getPost = (req, res) => {
   return res.json(req.post);
 };
 
+exports.getAllPosts = (req, res) => {
+  //
+};
+
 exports.deletePost = (req, res) => {
   let post = req.post;
   post.remove((err, deletedPost) => {

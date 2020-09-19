@@ -5,6 +5,7 @@ const {
   getPostById,
   createPost,
   getPost,
+  getAllPosts,
   updatePost,
   deletePost,
   getAllPostsByUserId,
@@ -23,3 +24,5 @@ router.get("/posts/:userId", isSignedIn, getAllPostsByUserId);
 router.get("/post/photo/:postId", isSignedIn, photo);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
+
+module.exports = router;
