@@ -4,7 +4,7 @@ import {
   getRequests,
   acceptRequest,
   rejectRequest,
-} from "../../core/corehelper";
+} from "../../user/helper/userapicalls";
 import ImageHelper from "./ImageHelper";
 
 const FriendReq = () => {

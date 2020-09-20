@@ -11,6 +11,7 @@ const {
   fetchIncomingReqs,
   acceptRequest,
   rejectRequest,
+  showFeed,
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
@@ -46,5 +47,8 @@ router.delete(
   isAuthenticated,
   rejectRequest
 );
+
+//NEWS-FEED Routes
+router.get("/user/feed/:userId", isSignedIn, isAuthenticated, showFeed);
 
 module.exports = router;

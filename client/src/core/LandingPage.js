@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { isAuthenticated } from "../authHelper";
 import Base from "./Base";
 import ImageHelper from "../user/helper/ImageHelper";
-import { getAllUsers, sendRequest } from "./corehelper";
+import { getAllUsers } from "./corehelper";
+import { sendRequest } from "../user/helper/userapicalls";
 import Signup from "../user/Signup";
+import Updates from "../user/Updates";
 
 const LandingPage = () => {
   const [users, setUsers] = useState([]);
@@ -69,7 +71,7 @@ const LandingPage = () => {
       {isAuthenticated ? (
         <div className="row">
           <div className="col-8">
-            <h1>FEED</h1>
+            <Updates />
           </div>
           <div className="col-4">
             {users.map((DBuser, index) => {

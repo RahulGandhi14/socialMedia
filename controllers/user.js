@@ -174,3 +174,7 @@ exports.rejectRequest = (req, res) => {
     res.json("FRIEND-REQ Rejected Successfully!");
   });
 };
+
+exports.showFeed = (req, res) => {
+  console.log(req.profile);
+};
