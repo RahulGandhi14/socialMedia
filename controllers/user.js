@@ -3,6 +3,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const ObjectId = require("mongodb").ObjectID;
 const FriendReq = require("../models/friendRequest");
+const friendRequest = require("../models/friendRequest");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -160,5 +161,16 @@ exports.acceptRequest = (req, res) => {
       }
     );
     res.json("FRIEND LISTS UPDATED!");
+  });
+};
+
+exports.rejectRequest = (req, res) => {
+  friendRequest.deleteOne({ _id: req.body._id }).exec((err, deleted) => {
+    if (err) {
+      return res.status(400).json({
+        error: "UNABLE TO REJECT REQ",
+      });
+    }
+    res.json("FRIEND-REQ Rejected Successfully!");
   });
 };

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { isAuthenticated } from "../../authHelper";
-import { getRequests, acceptRequest } from "../../core/corehelper";
+import {
+  getRequests,
+  acceptRequest,
+  rejectRequest,
+} from "../../core/corehelper";
 import ImageHelper from "./ImageHelper";
 
 const FriendReq = () => {
@@ -37,6 +41,17 @@ const FriendReq = () => {
     });
   };
 
+  const rejectReq = (req) => {
+    // console.log("on click");
+    rejectRequest(user._id, req, token).then((data) => {
+      if (data?.error) {
+        console.log(data.error);
+        setError(data.error);
+      } else {
+        setReload(!reload);
+      }
+    });
+  };
   const friendReqCard = (req, index) => (
     <div className="card my-2" key={index}>
       <div className="card-header p-1">
@@ -63,7 +78,10 @@ const FriendReq = () => {
             >
               Accept
             </button>
-            <button className="btn btn-block btn-danger float-right">
+            <button
+              onClick={() => rejectReq(req)}
+              className="btn btn-block btn-danger float-right"
+            >
               Reject
             </button>
           </div>

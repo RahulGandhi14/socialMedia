@@ -10,6 +10,7 @@ const {
   sendFriendRequest,
   fetchIncomingReqs,
   acceptRequest,
+  rejectRequest,
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
@@ -34,10 +35,16 @@ router.get(
   fetchIncomingReqs
 );
 router.post(
-  "/user/acceptrequests/:userId",
+  "/user/acceptrequest/:userId",
   isSignedIn,
   isAuthenticated,
   acceptRequest
+);
+router.delete(
+  "/user/rejectrequest/:userId",
+  isSignedIn,
+  isAuthenticated,
+  rejectRequest
 );
 
 module.exports = router;
