@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { isAuthenticated } from "../authHelper";
 import Base from "../core/Base";
 import Feed from "../core/Feed";
+import FriendReq from "./helper/FriendReq";
 import ImageHelper from "./helper/ImageHelper";
 import { getUser } from "./helper/userapicalls";
 
@@ -60,7 +61,7 @@ const Profile = () => {
           <Feed />
         </div>
         <div className="col-3">
-          <h1>Friend Requests</h1>
+          <FriendReq />
         </div>
       </div>
     </Base>

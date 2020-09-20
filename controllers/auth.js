@@ -6,7 +6,7 @@ const formidable = require("formidable");
 const fs = require("fs"); //fs=filesystem
 
 exports.signup = (req, res) => {
-  console.log("SINGUP FORM:");
+  // console.log("SINGUP FORM:");
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -112,7 +112,7 @@ exports.signin = (req, res) => {
 
     //Response to frontEnd
     const { _id, firstname, lastname, email, city } = user;
-    console.log(city);
+    // console.log(city);
     return res.json({ token, user: { _id, firstname, lastname, email, city } });
   });
 };
@@ -132,8 +132,10 @@ exports.isSignedIn = expressJWT({
 });
 
 exports.isAuthenticated = (req, res, next) => {
+  // console.log("CHECKING.....");
   // console.log(`PROFILE:${req.profile._id}`);
   // console.log(`AUTH:${req.auth._id}`);
+
   let checker = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!checker) {
     return res.status(403).json({

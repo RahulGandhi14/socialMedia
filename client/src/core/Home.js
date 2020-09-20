@@ -1,12 +1,13 @@
-import React from "react";
-import Base from "./Base";
+import { isArguments } from "lodash";
+import React, { Fragment } from "react";
+import { Redirect } from "react-router-dom";
+import { isAuthenticated } from "../authHelper";
+import LandingPage from "./LandingPage";
 
-const Home = () => {
-  return (
-    <Base>
-      <h1>HOME PAGE</h1>
-    </Base>
-  );
-};
+const Home = () => (
+  <Fragment>
+    {isAuthenticated() ? <LandingPage /> : <Redirect to="/signin" />}
+  </Fragment>
+);
 
 export default Home;

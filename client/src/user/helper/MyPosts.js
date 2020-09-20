@@ -53,7 +53,7 @@ const MyPosts = ({ reload = undefined }) => {
 
   return (
     <div>
-      <h1>Posts</h1>
+      <h4 className="alert alert-info mt-3">My Posts</h4>
       {posts.map((post, index) => {
         return <Fragment key={index}>{postCard(post)}</Fragment>;
       })}

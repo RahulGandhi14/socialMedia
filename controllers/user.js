@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const formidable = require("formidable");
 const _ = require("lodash");
+const ObjectId = require("mongodb").ObjectID;
+const FriendReq = require("../models/friendRequest");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -72,6 +74,7 @@ exports.updateUser = (req, res) => {
 };
 
 exports.getAllUsers = (req, res) => {
+  // console.log("GETTNG ALL USERS");
   User.find()
     .select("-photo")
     .exec((err, users) => {
@@ -82,4 +85,80 @@ exports.getAllUsers = (req, res) => {
       }
       res.json(users);
     });
+};
+
+exports.sendFriendRequest = (req, res) => {
+  // console.log("REQ");
+  // console.log(req.body);
+  let friendReq = new FriendReq();
+  friendReq.requester = new ObjectId(req.profile._id);
+  friendReq.recipient = new ObjectId(req.body._id);
+  friendReq.status = 1;
+
+  friendReq.save((err, success) => {
+    if (err) {
+      return res.status(400).json({
+        error: "FAILED SEND REQUEST!",
+      });
+    }
+    // console.log("Success", success);
+    res.json(success);
+  });
+};
+
+exports.fetchIncomingReqs = (req, res) => {
+  // console.log("FETCHING...");
+  FriendReq.find({ recipient: req.profile._id, status: 1 })
+    .populate("requester")
+    .exec((err, request) => {
+      if (err) {
+        return res.status(400).json({
+          error: "FAILED TO SEND REQUEST!",
+        });
+      }
+      res.json(request);
+    });
+};
+
+exports.acceptRequest = (req, res) => {
+  console.log("Accepting...");
+  console.log("Req-body", req.body);
+
+  let query = {
+    recipient: new ObjectId(req.profile._id),
+    requester: new ObjectId(req.body.requester._id),
+  };
+
+  FriendReq.deleteOne({ _id: req.body._id }).exec((err, success) => {
+    if (err) {
+      return res.status(400).json({
+        error: "FAILED TO ACCEPT REQUEST!",
+      });
+    }
+    User.findOneAndUpdate(
+      { _id: new ObjectId(req.profile._id) },
+      { $push: { friends: [{ _id: new ObjectId(req.body.requester._id) }] } },
+      { new: true },
+      (err, updated) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Unable to save friend's list-1",
+          });
+        }
+      }
+    );
+    User.findOneAndUpdate(
+      { _id: new ObjectId(req.body.requester._id) },
+      { $push: { friends: [{ _id: new ObjectId(req.profile._id) }] } },
+      { new: true },
+      (err, updated) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Unable to save friend's list-2",
+          });
+        }
+      }
+    );
+    res.json("FRIEND LISTS UPDATED!");
+  });
 };
