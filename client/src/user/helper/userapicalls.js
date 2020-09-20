@@ -75,7 +75,7 @@ export const getRequests = (userId, token) => {
 };
 
 export const acceptRequest = (userId, friend, token) => {
-  return fetch(`${API}/user/acceptrequests/${userId}`, {
+  return fetch(`${API}/user/acceptrequest/${userId}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -103,7 +103,7 @@ export const rejectRequest = (userId, friend, token) => {
 };
 
 export const loadFeed = (userId, token) => {
-  return fetch(`${API}/posts/${userId}`, {
+  return fetch(`${API}/user/feed/${userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

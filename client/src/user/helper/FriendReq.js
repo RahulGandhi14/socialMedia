@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { isAuthenticated } from "../../authHelper";
-import {
-  getRequests,
-  acceptRequest,
-  rejectRequest,
-} from "../../user/helper/userapicalls";
+import { getRequests, acceptRequest, rejectRequest } from "./userapicalls";
 import ImageHelper from "./ImageHelper";
 
 const FriendReq = () => {
@@ -30,7 +26,7 @@ const FriendReq = () => {
   }, [reload]);
 
   const acceptReq = (req) => {
-    // console.log("on click");
+    console.log("on click");
     acceptRequest(user._id, req, token).then((data) => {
       if (data?.error) {
         console.log(data.error);

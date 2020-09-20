@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Post = require("../models/post");
 const formidable = require("formidable");
 const _ = require("lodash");
 const ObjectId = require("mongodb").ObjectID;
@@ -176,5 +177,15 @@ exports.rejectRequest = (req, res) => {
 };
 
 exports.showFeed = (req, res) => {
-  console.log(req.profile);
+  Post.find({ user: { $in: req.profile.friends } })
+    .populate("user")
+    .sort({ createdAt: -1 })
+    .exec((err, posts) => {
+      if (err) {
+        return res.status(400).json({
+          error: "UNABLE FETCH POSTS",
+        });
+      }
+      res.json(posts);
+    });
 };
