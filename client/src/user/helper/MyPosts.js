@@ -3,7 +3,7 @@ import { isAuthenticated } from "../../authHelper";
 import ImageHelper from "./ImageHelper";
 import { getPosts } from "./userapicalls";
 
-const MyPosts = () => {
+const MyPosts = ({ reload = undefined }) => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
 
@@ -27,7 +27,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     preload(user._id, token);
-  }, []);
+  }, [reload]);
 
   const postCard = (post) => (
     <div className="card my-3">
@@ -39,7 +39,7 @@ const MyPosts = () => {
           <div className="col-3 text-center">
             <i
               onClick={() => likePost(post)}
-              class="far fa-heart fa-3x"
+              className="far fa-heart fa-3x"
               style={{ cursor: "pointer" }}
             ></i>
           </div>

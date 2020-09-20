@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { isAuthenticated } from "../../authHelper";
 import { createPost } from "./userapicalls";
 
-const PostContent = () => {
+const PostContent = ({ setReload = (f) => f, reload = undefined }) => {
   const [values, setValues] = useState({
     photo: "",
     caption: "",
@@ -11,6 +11,8 @@ const PostContent = () => {
     success: false,
   });
 
+  const [disable, setDisable] = useState(true);
+
   const { user, token } = isAuthenticated();
 
   const { caption, formData, error, success } = values;
@@ -18,6 +20,9 @@ const PostContent = () => {
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
+    if (name === "photo") {
+      setDisable(!disable);
+    }
     setValues({ ...values, [name]: value });
   };
 
@@ -35,6 +40,7 @@ const PostContent = () => {
             caption: "",
             success: true,
           });
+          setReload(!reload);
         }
       })
       .catch((err) => console.log(err));
@@ -68,7 +74,11 @@ const PostContent = () => {
               className="form-control"
             ></textarea>
           </div>
-          <button onClick={onSubmit} className="btn btn-primary btn-block">
+          <button
+            disabled={disable}
+            onClick={onSubmit}
+            className="btn btn-primary btn-block"
+          >
             POST
           </button>
         </form>

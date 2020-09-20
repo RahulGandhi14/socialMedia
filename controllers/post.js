@@ -18,7 +18,6 @@ exports.getPostById = (req, res, next, id) => {
 };
 
 exports.createPost = (req, res) => {
-  console.log("INSIDE CREATE POST");
   let form = formidable.IncomingForm();
   form.keepExtensions = true;
 
@@ -30,11 +29,7 @@ exports.createPost = (req, res) => {
     }
     const { caption } = fields;
 
-    if (!caption) {
-      res.status(400).json({
-        error: "Please enter the caption",
-      });
-    } else if (!files.photo) {
+    if (!files.photo) {
       return res.status(400).json({
         error: "Please upload a photo!",
       });
