@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../authHelper";
 import Base from "../core/Base";
-import Feed from "../core/Feed";
+import Feed from "./Feed";
 import FriendReq from "./helper/FriendReq";
 import ImageHelper from "./helper/ImageHelper";
 import { getUser } from "./helper/userapicalls";

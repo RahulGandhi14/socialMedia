@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import MyPosts from "../user/helper/MyPosts";
-import PostContent from "../user/helper/PostContent";
+import MyPosts from "./helper/MyPosts";
+import PostContent from "./helper/PostContent";
 
 const Feed = () => {
   const [reload, setReload] = useState(false);

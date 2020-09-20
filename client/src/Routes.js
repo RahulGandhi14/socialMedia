@@ -4,7 +4,7 @@ import PrivateRoute from "./authHelper/PrivateRoute";
 import Signin from "./user/Signin";
 import Profile from "./user/Profile";
 import Signup from "./user/Signup";
-import Feed from "./core/Feed";
+import Feed from "./user/Feed";
 import UpdateUser from "./user/helper/UpdateUser";
 import Home from "./core/Home";
 
