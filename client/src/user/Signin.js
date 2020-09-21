@@ -108,11 +108,11 @@ const Signin = () => {
       {errorMessage()}
       {signInForm()}
       {performRedirect()}
-      <p className="text-center text-dark mt-2">
-        <h5>
-          New User? <Link to="/signup">Signup Here!</Link>
-        </h5>
-      </p>
+
+      <h5 className="text-center text-dark mt-2">
+        New User? <Link to="/signup">Signup Here!</Link>
+      </h5>
+
       {/* <p className="text-dark text-center">{JSON.stringify(values)}</p> */}
     </Base>
   );

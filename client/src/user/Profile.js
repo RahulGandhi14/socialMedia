@@ -43,7 +43,7 @@ const Profile = () => {
     <Base>
       <div className="row">
         <div className="col-3">
-          <div className="card">
+          <div className="card text-center">
             <ImageHelper className="card-img-top" obj={user} getFor="user" />
             <div className="card-body">
               <h4 className="card-title">
