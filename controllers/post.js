@@ -8,17 +8,15 @@ const { sortBy } = require("lodash");
 const { ObjectID } = require("mongodb");
 
 exports.getPostById = (req, res, next, id) => {
-  Post.findById(id)
-    .select("-photo")
-    .exec((err, post) => {
-      if (err || !post) {
-        return res.status(400).json({
-          error: "NO POST FOUND IN DB!",
-        });
-      }
-      req.post = post;
-      next();
-    });
+  Post.findById(id).exec((err, post) => {
+    if (err || !post) {
+      return res.status(400).json({
+        error: "NO POST FOUND IN DB!",
+      });
+    }
+    req.post = post;
+    next();
+  });
 };
 
 exports.createPost = (req, res) => {

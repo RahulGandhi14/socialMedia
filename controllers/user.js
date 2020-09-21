@@ -96,6 +96,7 @@ exports.sendFriendRequest = (req, res) => {
   friendReq.requester = new ObjectId(req.profile._id);
   friendReq.recipient = new ObjectId(req.body._id);
   friendReq.status = 1;
+  // console.log(friendReq);
 
   friendReq.save((err, success) => {
     if (err) {
@@ -104,16 +105,17 @@ exports.sendFriendRequest = (req, res) => {
       });
     }
     User.findByIdAndUpdate(req.profile._id, {
-      $push: { reqSent: new ObjectID(req.body._id) },
+      $push: { reqSent: new ObjectId(req.body._id) },
     }).exec((err) => {
       if (err) {
         return res.status(400).json({
           error: "FAILED PUSH SENT REQUEST IN DB!",
         });
       }
+      res.json(success);
     });
-    console.log("Success", success);
-    res.json(success);
+    // console.log("Success", success);
+    // res.json(success);
   });
 };
 
@@ -178,12 +180,22 @@ exports.acceptRequest = (req, res) => {
 };
 
 exports.rejectRequest = (req, res) => {
+  // console.log("IN_REJECT", req.body);
   friendRequest.deleteOne({ _id: req.body._id }).exec((err, deleted) => {
     if (err) {
       return res.status(400).json({
         error: "UNABLE TO REJECT REQ",
       });
     }
+    User.findByIdAndUpdate(req.body.requester._id, {
+      $pull: { reqSent: new ObjectId(req.body.recipient) },
+    }).exec((err) => {
+      if (err) {
+        return res.status(400).json({
+          error: "UNABLE TO PULL REQ FROM USER-DOC!",
+        });
+      }
+    });
     res.json("FRIEND-REQ Rejected Successfully!");
   });
 };
