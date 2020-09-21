@@ -52,10 +52,13 @@ const Updates = () => {
   }, []);
 
   return (
-    <div>
-      {feed.map((post, index) => feedCard(post))}
-      {console.log(feed)}
-    </div>
+    <Fragment>
+      {feed.length > 0 ? (
+        <div>{feed.map((post, index) => feedCard(post))}</div>
+      ) : (
+        <div className="alert alert-primary">NO UPDATES! MAKE NEW FRIENDS</div>
+      )}
+    </Fragment>
   );
 };
 

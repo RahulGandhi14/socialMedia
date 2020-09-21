@@ -77,7 +77,7 @@ exports.updateUser = (req, res) => {
 
 exports.getAllUsers = (req, res) => {
   // console.log("GETTNG ALL USERS");
-  User.find()
+  User.find({ _id: { $nin: req.profile.friends } })
     .select("-photo")
     .exec((err, users) => {
       if (err) {

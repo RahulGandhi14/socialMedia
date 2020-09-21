@@ -74,6 +74,7 @@ const LandingPage = () => {
             <Updates />
           </div>
           <div className="col-4">
+            <h4 className="alert alert-info">Make New Friends</h4>
             {users.map((DBuser, index) => {
               if (DBuser._id !== user._id) return showUsers(DBuser, index);
             })}

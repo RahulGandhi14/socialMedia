@@ -137,8 +137,6 @@ exports.updatePost = (req, res) => {
 };
 
 exports.getAllPostsByUserId = (req, res) => {
-  let sortBy = "updatedAt";
-
   Post.find({ user: req.profile._id })
     .select("-photo")
     .sort({ updatedAt: -1 })
