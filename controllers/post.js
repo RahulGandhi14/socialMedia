@@ -8,15 +8,17 @@ const { sortBy } = require("lodash");
 const { ObjectID } = require("mongodb");
 
 exports.getPostById = (req, res, next, id) => {
-  Post.findById(id).exec((err, post) => {
-    if (err || !post) {
-      return res.status(400).json({
-        error: "NO POST FOUND IN DB!",
-      });
-    }
-    req.post = post;
-    next();
-  });
+  Post.findById(id)
+    .select("-photo")
+    .exec((err, post) => {
+      if (err || !post) {
+        return res.status(400).json({
+          error: "NO POST FOUND IN DB!",
+        });
+      }
+      req.post = post;
+      next();
+    });
 };
 
 exports.createPost = (req, res) => {
@@ -78,7 +80,7 @@ exports.createPost = (req, res) => {
 };
 
 exports.getPost = (req, res) => {
-  req.post.photo.data = undefined;
+  // req.post.photo.data = undefined;
   return res.json(req.post);
 };
 
@@ -158,14 +160,16 @@ exports.likePost = (req, res) => {
   Post.findOneAndUpdate(
     { _id: req.post._id, likes: { $ne: req.profile._id } },
     { $inc: { likeCounts: 1 }, $push: { likes: new ObjectID(req.profile._id) } }
-  ).exec((err, postLiked) => {
-    if (err) {
-      return res.status(400).json({
-        error: "UNABLE TO LIKE THE POST!",
-      });
-    }
-    res.json(postLiked);
-  });
+  )
+    .select("-photo")
+    .exec((err, postLiked) => {
+      if (err) {
+        return res.status(400).json({
+          error: "UNABLE TO LIKE THE POST!",
+        });
+      }
+      res.json(postLiked);
+    });
 };
 
 exports.unLikePost = (req, res) => {
@@ -176,14 +180,16 @@ exports.unLikePost = (req, res) => {
       $inc: { likeCounts: -1 },
       $pull: { likes: new ObjectID(req.profile._id) },
     }
-  ).exec((err, postUnLiked) => {
-    if (err) {
-      return res.status(400).json({
-        error: "UNABLE TO UN-LIKE THE POST!",
-      });
-    }
-    res.json(postUnLiked);
-  });
+  )
+    .select("-photo")
+    .exec((err, postUnLiked) => {
+      if (err) {
+        return res.status(400).json({
+          error: "UNABLE TO UN-LIKE THE POST!",
+        });
+      }
+      res.json(postUnLiked);
+    });
 };
 
 exports.commentOnPost = (req, res) => {
