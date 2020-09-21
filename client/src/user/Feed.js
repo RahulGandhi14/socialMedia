@@ -8,7 +8,7 @@ const Feed = () => {
   return (
     <div>
       <PostContent setReload={setReload} reload={reload} />
-      <MyPosts reload={reload} />
+      <MyPosts setReload={setReload} reload={reload} />
     </div>
   );
 };

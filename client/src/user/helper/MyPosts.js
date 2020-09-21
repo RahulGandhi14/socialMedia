@@ -2,8 +2,9 @@ import React, { useState, useEffect, Fragment } from "react";
 import { isAuthenticated } from "../../authHelper";
 import ImageHelper from "./ImageHelper";
 import { getPosts } from "./userapicalls";
+import PostCard from "./PostCard";
 
-const MyPosts = ({ reload = undefined }) => {
+const MyPosts = ({ setReload = (f) => f, reload = undefined }) => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
 
@@ -54,9 +55,14 @@ const MyPosts = ({ reload = undefined }) => {
   return (
     <div>
       <h4 className="alert alert-info mt-3">My Posts</h4>
-      {posts.map((post, index) => {
-        return <Fragment key={index}>{postCard(post)}</Fragment>;
-      })}
+      {posts.map((post, index) => (
+        <PostCard
+          post={post}
+          key={index}
+          setReload={setReload}
+          reload={reload}
+        />
+      ))}
     </div>
   );
 };

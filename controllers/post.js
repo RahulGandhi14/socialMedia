@@ -140,6 +140,7 @@ exports.updatePost = (req, res) => {
 exports.getAllPostsByUserId = (req, res) => {
   Post.find({ user: req.profile._id })
     .select("-photo")
+    .populate("user")
     .sort({ updatedAt: -1 })
     .exec((err, posts) => {
       if (err) {
