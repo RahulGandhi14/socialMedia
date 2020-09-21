@@ -11,6 +11,7 @@ const {
   getAllPostsByUserId,
   photo,
   likePost,
+  unLikePost,
 } = require("../controllers/post");
 const { getUserById } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
@@ -26,5 +27,11 @@ router.get("/post/photo/:postId", photo);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
 router.put("/post/like/:postId/:userId", isSignedIn, isAuthenticated, likePost);
+router.put(
+  "/post/unlike/:postId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  unLikePost
+);
 
 module.exports = router;

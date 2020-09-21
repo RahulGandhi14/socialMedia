@@ -15,7 +15,7 @@ const NavBar = ({ history }) => (
     <ul className="nav nav-tabs bg-light">
       <li className="nav-item">
         <Link style={currentTab(history, "/")} className="nav-link" to="/">
-          Home
+          Feed
         </Link>
       </li>
       {isAuthenticated() && (

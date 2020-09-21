@@ -152,7 +152,7 @@ exports.getAllPostsByUserId = (req, res) => {
 };
 
 exports.likePost = (req, res) => {
-  console.log("Like Post");
+  // console.log("Like Post");
   Post.findOneAndUpdate(
     { _id: req.post._id, likes: { $ne: req.profile._id } },
     { $inc: { likeCounts: 1 }, $push: { likes: new ObjectID(req.profile._id) } }
@@ -163,6 +163,24 @@ exports.likePost = (req, res) => {
       });
     }
     res.json(postLiked);
+  });
+};
+
+exports.unLikePost = (req, res) => {
+  // console.log("Like Post");
+  Post.findOneAndUpdate(
+    { _id: req.post._id, likes: req.profile._id },
+    {
+      $inc: { likeCounts: -1 },
+      $pull: { likes: new ObjectID(req.profile._id) },
+    }
+  ).exec((err, postUnLiked) => {
+    if (err) {
+      return res.status(400).json({
+        error: "UNABLE TO UN-LIKE THE POST!",
+      });
+    }
+    res.json(postUnLiked);
   });
 };
 

@@ -9,10 +9,10 @@ const Signin = () => {
     password: "",
     error: "",
     loading: false,
-    didRedirect: false,
+    // didRedirect: false,
   });
 
-  const { email, password, error, loading, didRedirect } = values;
+  const { email, password, error, loading } = values;
   // const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
@@ -37,9 +37,9 @@ const Signin = () => {
   };
 
   const performRedirect = () => {
-    if (didRedirect) {
-      return <Redirect to="/user/profile" />;
-    }
+    // if (didRedirect) {
+    //   return <Redirect to="/user/profile" />;
+    // }
     if (isAuthenticated()) {
       return <Redirect to="/" />;
     }
