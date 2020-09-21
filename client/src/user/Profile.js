@@ -1,3 +1,5 @@
+import { values } from "lodash";
+import { token } from "morgan";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../authHelper";
@@ -8,22 +10,21 @@ import ImageHelper from "./helper/ImageHelper";
 import { getUser } from "./helper/userapicalls";
 
 const Profile = () => {
-  const { user } = isAuthenticated();
-
+  const { user, token } = isAuthenticated();
   const [users, setUsers] = useState({
     firstname: "",
     lastname: "",
     city: "",
-    error: "",
   });
+  const [error, setError] = useState("");
 
-  const { firstname, lastname, city } = users;
+  const { firstname, lastname } = users;
 
   const preload = (userId) => {
     getUser(userId)
       .then((data) => {
         if (data?.error) {
-          setUsers({ ...users, error: data.error });
+          setError(data.error);
         } else {
           setUsers({
             ...users,
@@ -51,7 +52,10 @@ const Profile = () => {
                 {firstname} {lastname}
               </h4>
               <p className="card-text">From {user.city}</p>
-              <Link className="btn btn-primary" to={`/user/update/${user._id}`}>
+              <Link
+                className="btn btn-primary btn-block"
+                to={`/user/update/${user._id}`}
+              >
                 UPDATE
               </Link>
             </div>
@@ -64,6 +68,7 @@ const Profile = () => {
           <FriendReq />
         </div>
       </div>
+      {/* {console.log(users)} */}
     </Base>
   );
 };

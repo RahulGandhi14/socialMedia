@@ -32,6 +32,7 @@ const LandingPage = () => {
         if (data?.error) {
           setError(data.error);
         } else {
+          console.log("DATA", data);
           if (data.status === 1) {
             setReqState("Sent");
           }

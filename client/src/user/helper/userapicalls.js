@@ -88,7 +88,7 @@ export const acceptRequest = (userId, friend, token) => {
     .catch((err) => console.log(err));
 };
 
-export const rejectRequest = (userId, friend, token) => {
+export const rejectRequest = (userId, friendReq, token) => {
   return fetch(`${API}/user/rejectrequest/${userId}`, {
     method: "DELETE",
     headers: {
@@ -96,7 +96,7 @@ export const rejectRequest = (userId, friend, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(friend),
+    body: JSON.stringify(friendReq),
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));
@@ -150,6 +150,19 @@ export const sendComment = (userId, postId, token, comment) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(comment),
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export const loadFriendsList = (userId, token) => {
+  return fetch(`${API}/user/friends/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));

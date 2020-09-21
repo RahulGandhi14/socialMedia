@@ -2,7 +2,7 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const formidable = require("formidable");
 const _ = require("lodash");
-const ObjectId = require("mongodb").ObjectID;
+const { ObjectId } = require("mongodb");
 const FriendReq = require("../models/friendRequest");
 const friendRequest = require("../models/friendRequest");
 
@@ -90,7 +90,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.sendFriendRequest = (req, res) => {
-  // console.log("REQ");
+  console.log("REQ-SENDING");
   // console.log(req.body);
   let friendReq = new FriendReq();
   friendReq.requester = new ObjectId(req.profile._id);
@@ -103,7 +103,16 @@ exports.sendFriendRequest = (req, res) => {
         error: "FAILED SEND REQUEST!",
       });
     }
-    // console.log("Success", success);
+    User.findByIdAndUpdate(req.profile._id, {
+      $push: { reqSent: new ObjectID(req.body._id) },
+    }).exec((err) => {
+      if (err) {
+        return res.status(400).json({
+          error: "FAILED PUSH SENT REQUEST IN DB!",
+        });
+      }
+    });
+    console.log("Success", success);
     res.json(success);
   });
 };
@@ -151,7 +160,10 @@ exports.acceptRequest = (req, res) => {
     );
     User.findOneAndUpdate(
       { _id: new ObjectId(req.body.requester._id) },
-      { $push: { friends: [{ _id: new ObjectId(req.profile._id) }] } },
+      {
+        $push: { friends: [{ _id: new ObjectId(req.profile._id) }] },
+        $pull: { reqSent: new ObjectID(req.profile._id) },
+      },
       { new: true },
       (err, updated) => {
         if (err) {
@@ -187,5 +199,19 @@ exports.showFeed = (req, res) => {
         });
       }
       res.json(posts);
+    });
+};
+
+exports.showUserFriends = (req, res) => {
+  User.findById(req.profile._id, { friends: 1, _id: 0 })
+    .populate("friends", "_id firstname lastname city")
+    .exec((err, friends) => {
+      if (err || !friends) {
+        return res.status(400).json({
+          error: "NO FRIENDS FOUND IN DB!",
+        });
+      }
+
+      res.json(friends);
     });
 };

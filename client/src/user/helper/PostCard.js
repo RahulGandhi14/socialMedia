@@ -57,7 +57,7 @@ const PostCard = ({ post, setReload = (f) => f, reload = undefined }) => {
       </div>
       <div className="card-body">
         <div className="row">
-          <div className="col-2">
+          <div className="col-4">
             {post.likes.includes(user._id) ? (
               <svg
                 width="2em"
@@ -97,29 +97,29 @@ const PostCard = ({ post, setReload = (f) => f, reload = undefined }) => {
               </p>
             )}
           </div>
-          <div className="col-5">
+          <div className="col-8">
             <h3 className="card-text">{post.caption}</h3>
           </div>
-          <div className="col-5 row">
-            <form className="col-8">
-              <input
-                type="text"
-                value={comment}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Write a comment..."
-              />
-            </form>
-            <button className="btn btn-info col-4" onClick={onComment}>
-              POST
-            </button>
-          </div>
+        </div>
+        <div className="row mt-3">
+          <form className="col-8">
+            <input
+              type="text"
+              value={comment}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Write a comment..."
+            />
+          </form>
+          <button className="btn btn-info col-4" onClick={onComment}>
+            POST
+          </button>
         </div>
         <div className="mt-2">
           <p className="font-weight-bold my-0">Comments:</p>
           {post.comments.length > 0 ? (
             post.comments.map((comment, index) => (
-              <p className="my-0">
+              <p className="my-0" key={index}>
                 <span className="font-weight-bold">@{comment.postedBy}: </span>
                 {comment.comment.text}
               </p>
@@ -129,6 +129,7 @@ const PostCard = ({ post, setReload = (f) => f, reload = undefined }) => {
           )}
         </div>
       </div>
+      {/* {console.log(post)} */}
       {/* <p className="text-dark text-center">{comment}</p> */}
     </div>
   );
