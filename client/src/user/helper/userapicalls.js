@@ -114,3 +114,16 @@ export const loadFeed = (userId, token) => {
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
+
+export const postLike = (userId, postId, token) => {
+  return fetch(`${API}/post/like/${postId}/${userId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};

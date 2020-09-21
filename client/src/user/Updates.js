@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { isAuthenticated } from "../authHelper";
 import ImageHelper from "./helper/ImageHelper";
-import { loadFeed } from "./helper/userapicalls";
+import { loadFeed, postLike } from "./helper/userapicalls";
 
 const Updates = () => {
   const [feed, setFeed] = useState([]);
@@ -18,12 +18,18 @@ const Updates = () => {
     });
   };
 
-  const likePost = (event, post) => {
-    //
+  const likePost = (post) => {
+    postLike(user._id, post._id, token).then((data) => {
+      if (data?.error) {
+        setError(data.error);
+      } else {
+        console.log("POST LIKED!");
+      }
+    });
   };
 
-  const feedCard = (post) => (
-    <div className="card my-3">
+  const feedCard = (post, index) => (
+    <div className="card my-3" key={index}>
       <div className="card-header font-weight-bold">
         @{post.user.firstname}_{post.user.lastname}
       </div>
@@ -54,7 +60,7 @@ const Updates = () => {
   return (
     <Fragment>
       {feed.length > 0 ? (
-        <div>{feed.map((post, index) => feedCard(post))}</div>
+        <div>{feed.map((post, index) => feedCard(post, index))}</div>
       ) : (
         <div className="alert alert-primary">NO UPDATES! MAKE NEW FRIENDS</div>
       )}
