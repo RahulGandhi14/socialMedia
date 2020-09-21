@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 const formidable = require("formidable");
 const fs = require("fs"); //fs=filesystem
 const _ = require("lodash");
@@ -182,6 +183,39 @@ exports.unLikePost = (req, res) => {
       });
     }
     res.json(postUnLiked);
+  });
+};
+
+exports.commentOnPost = (req, res) => {
+  console.log("INSIDE-COMMENT", req.body);
+  let newComment = new Comment();
+  newComment.post = new ObjectID(req.post._id);
+  newComment.user = new ObjectID(req.profile._id);
+  newComment.text = req.body.comment;
+
+  let fullName = `${req.profile.firstname}_${req.profile.lastname}`;
+
+  newComment.save((err, commentSaved) => {
+    if (err) {
+      return res.status(400).json({
+        error: "UNABLE SAVE COMMENT IN DB!",
+      });
+    }
+    Post.findByIdAndUpdate(req.post._id, {
+      $push: {
+        comments: {
+          comment: new ObjectID(commentSaved._id),
+          postedBy: fullName,
+        },
+      },
+    }).exec((err, updated) => {
+      if (err) {
+        return res.status(400).json({
+          error: "FAILED TO PUSH COMMENT!",
+        });
+      }
+    });
+    res.json(commentSaved);
   });
 };
 

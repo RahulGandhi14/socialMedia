@@ -12,6 +12,7 @@ const {
   photo,
   likePost,
   unLikePost,
+  commentOnPost,
 } = require("../controllers/post");
 const { getUserById } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
@@ -32,6 +33,13 @@ router.put(
   isSignedIn,
   isAuthenticated,
   unLikePost
+);
+
+router.post(
+  "/post/comment/:postId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  commentOnPost
 );
 
 module.exports = router;

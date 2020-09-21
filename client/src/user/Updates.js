@@ -27,6 +27,7 @@ const Updates = () => {
     <Fragment>
       {feed.length > 0 ? (
         <div>
+          {console.log(feed)}
           {feed.map((post, index) => (
             <PostCard
               post={post}

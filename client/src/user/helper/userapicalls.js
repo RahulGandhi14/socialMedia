@@ -140,3 +140,17 @@ export const postUnLike = (userId, postId, token) => {
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
+
+export const sendComment = (userId, postId, token, comment) => {
+  return fetch(`${API}/post/comment/${postId}/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(comment),
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};

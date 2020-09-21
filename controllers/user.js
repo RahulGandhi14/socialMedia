@@ -178,7 +178,7 @@ exports.rejectRequest = (req, res) => {
 
 exports.showFeed = (req, res) => {
   Post.find({ user: { $in: req.profile.friends } })
-    .populate("user")
+    .populate("user comments.comment")
     .sort({ createdAt: -1 })
     .exec((err, posts) => {
       if (err) {
