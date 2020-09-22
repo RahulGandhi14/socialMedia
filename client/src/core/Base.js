@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "./NavBar";
+import "../style.css";
 
 const Base = ({ children, className = "text-dark p-4" }) => {
   return (
