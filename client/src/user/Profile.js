@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../authHelper";
 import Base from "../core/Base";
@@ -41,6 +41,7 @@ const Profile = () => {
         setError(data.error);
       } else {
         setFriends(data);
+        setReload(!reload);
       }
     });
   };
@@ -121,12 +122,7 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <h5
-              onClick={() => {}}
-              className="btn btn-block alert alert-info my-3"
-            >
-              Show Friends
-            </h5>
+            <h5 className="alert alert-info my-3">Show Friends</h5>
             {friends.length > 0 ? (
               friends.map((friend, index) => showFriends(friend, index))
             ) : (
