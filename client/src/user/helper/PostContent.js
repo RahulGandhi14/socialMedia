@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { isAuthenticated } from "../../authHelper";
 import { createPost } from "./userapicalls";
 
@@ -46,45 +46,51 @@ const PostContent = ({ setReload = (f) => f, reload = undefined }) => {
       .catch((err) => console.log(err));
   };
 
-  return (
-    <div className="card">
-      <p className="card-header">Write or Post something here...</p>
+  const errorMessage = () => {
+    return error && <h5 className="alert alert-danger text-center">{error}</h5>;
+  };
 
-      <div className="card-body">
-        <form>
-          <div className="input-group">
-            <div className="custom-file">
-              <input
-                onChange={handleChange("photo")}
-                type="file"
-                name="photo"
-                accept="image"
-                placeholder="choose a file"
-                className="custom-file-input"
-              />
-              <label className="custom-file-label">Choose file</label>
+  return (
+    <Fragment>
+      {errorMessage()}
+      <div className="card">
+        <p className="card-header">Write or Post something here...</p>
+        <div className="card-body">
+          <form>
+            <div className="input-group">
+              <div className="custom-file">
+                <input
+                  onChange={handleChange("photo")}
+                  type="file"
+                  name="photo"
+                  accept="image"
+                  placeholder="choose a file"
+                  className="custom-file-input"
+                />
+                <label className="custom-file-label">Choose file</label>
+              </div>
             </div>
-          </div>
-          <div className="input-group">
-            <textarea
-              onChange={handleChange("caption")}
-              value={caption}
-              placeholder="Caption"
-              required
-              className="form-control"
-            ></textarea>
-          </div>
-          <button
-            disabled={disable}
-            onClick={onSubmit}
-            className="btn btn-primary btn-block"
-          >
-            POST
-          </button>
-        </form>
-        {/* <p className="text-dark text-center">{JSON.stringify(values)}</p> */}
+            <div className="input-group">
+              <textarea
+                onChange={handleChange("caption")}
+                value={caption}
+                placeholder="Caption"
+                required
+                className="form-control"
+              ></textarea>
+            </div>
+            <button
+              disabled={disable}
+              onClick={onSubmit}
+              className="btn btn-primary btn-block"
+            >
+              POST
+            </button>
+          </form>
+          {/* <p className="text-dark text-center">{JSON.stringify(values)}</p> */}
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

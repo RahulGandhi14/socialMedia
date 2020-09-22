@@ -55,7 +55,7 @@ exports.createPost = (req, res) => {
     post.save((err, post) => {
       if (err) {
         return res.status(400).json({
-          error: "FAILED TO SAVE PRODUCT IN DB",
+          error: "FAILED TO SAVE POST IN DB",
         });
       }
       post.photo = undefined;
