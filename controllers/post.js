@@ -5,7 +5,7 @@ const formidable = require("formidable");
 const fs = require("fs"); //fs=filesystem
 const _ = require("lodash");
 const { sortBy } = require("lodash");
-const { ObjectID } = require("mongodb");
+const { ObjectID, ObjectId } = require("mongodb");
 
 exports.getPostById = (req, res, next, id) => {
   Post.findById(id).exec((err, post) => {
@@ -94,9 +94,18 @@ exports.deletePost = (req, res) => {
         error: "FAILED TO DELETE THE POST",
       });
     }
-    res.json({
-      message: "SUCCESSFULLY DELETED THE POST",
-    });
+    Comment.deleteOne({ post: new ObjectId(deletedPost._id) }).exec(
+      (err, deletedComment) => {
+        if (err) {
+          return res.status(400).json({
+            error: "FAILED TO DELETE THE COMMENT FOR GIVEN POST",
+          });
+        }
+        res.json({
+          message: "SUCCESSFULLY DELETED THE POST",
+        });
+      }
+    );
   });
 };
 
