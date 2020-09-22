@@ -60,6 +60,19 @@ export const getPosts = (userId, token) => {
     .catch((err) => console.log(err));
 };
 
+export const deleteThePost = (userId, postId, token) => {
+  return fetch(`${API}/post/delete/${userId}/${postId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
 export const sendRequest = (userId, friend, token) => {
   return fetch(`${API}/user/sendrequest/${userId}`, {
     method: "POST",

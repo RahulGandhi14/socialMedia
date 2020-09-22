@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { isAuthenticated } from "../../authHelper";
 import ImageHelper from "./ImageHelper";
-import { postLike, postUnLike, sendComment } from "./userapicalls";
+import {
+  postLike,
+  postUnLike,
+  sendComment,
+  deleteThePost,
+} from "./userapicalls";
 
 const PostCard = ({ post, setReload = (f) => f, reload = undefined }) => {
   const [error, setError] = useState("");
@@ -47,10 +52,34 @@ const PostCard = ({ post, setReload = (f) => f, reload = undefined }) => {
     });
   };
 
+  const deletePost = (post) => {
+    deleteThePost(user._id, post._id, token).then((data) => {
+      if (data?.error) {
+        setError(data.error);
+      } else {
+        console.log("POST DELETED!");
+        setReload(!reload);
+      }
+    });
+  };
+
   return (
     <div className="card my-3">
       <div className="card-header font-weight-bold">
-        @ {post.user.firstname}_{post.user.lastname}
+        <div className="row">
+          <div className="col-11">
+            @ {post.user.firstname}_{post.user.lastname}
+          </div>
+          {post.user._id === user._id && (
+            <div className="col-1">
+              <i
+                onClick={() => deletePost(post)}
+                className="far fa-trash-alt"
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <div className="card-header text-center">
         <ImageHelper className="card-img-top" obj={post} getFor="post" />

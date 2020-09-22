@@ -26,7 +26,12 @@ router.get("/posts", isSignedIn, getAllPosts);
 router.get("/posts/:userId", isSignedIn, isAuthenticated, getAllPostsByUserId);
 router.get("/post/photo/:postId", photo);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
-router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
+router.delete(
+  "/post/delete/:userId/:postId",
+  isSignedIn,
+  isAuthenticated,
+  deletePost
+);
 router.put("/post/like/:postId/:userId", isSignedIn, isAuthenticated, likePost);
 router.put(
   "/post/unlike/:postId/:userId",
