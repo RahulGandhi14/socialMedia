@@ -13,6 +13,8 @@ const {
   rejectRequest,
   showFeed,
   showUserFriends,
+  getSentReqs,
+  cancelFriendRequest,
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
@@ -29,6 +31,12 @@ router.post(
   isSignedIn,
   isAuthenticated,
   sendFriendRequest
+);
+router.delete(
+  "/user/cancelrequest/:userId",
+  isSignedIn,
+  isAuthenticated,
+  cancelFriendRequest
 );
 router.get(
   "/user/myrequests/:userId",
@@ -51,6 +59,13 @@ router.delete(
 
 //NEWS-FEED Routes
 router.get("/user/feed/:userId", isSignedIn, isAuthenticated, showFeed);
+
+router.get(
+  "/user/sentrequests/:userId",
+  isSignedIn,
+  isAuthenticated,
+  getSentReqs
+);
 
 router.get(
   "/user/friends/:userId",

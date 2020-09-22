@@ -28,6 +28,10 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
+exports.getSentReqs = (req, res) => {
+  return res.json(req.profile.reqSent);
+};
+
 exports.photo = (req, res, next) => {
   if (req.profile.photo.data) {
     res.set("Content-Type", req.profile.photo.contentType);
@@ -116,6 +120,30 @@ exports.sendFriendRequest = (req, res) => {
     });
     // console.log("Success", success);
     // res.json(success);
+  });
+};
+
+exports.cancelFriendRequest = (req, res) => {
+  console.log("CANCELING...");
+  FriendReq.deleteOne({
+    requester: req.profile._id,
+    recipient: req.body._id,
+  }).exec((err, canceled) => {
+    if (err) {
+      return res.status(400).json({
+        error: "FAILED TO CANCEL REQUEST!",
+      });
+    }
+    User.findByIdAndUpdate(req.profile._id, {
+      $pull: { reqSent: new ObjectId(req.body._id) },
+    }).then((err, user) => {
+      if (err) {
+        return res.status(400).json({
+          error: "FAILED TO CANCEL REQUEST!",
+        });
+      }
+    });
+    res.json(canceled);
   });
 };
 

@@ -113,7 +113,10 @@ exports.signin = (req, res) => {
     //Response to frontEnd
     const { _id, firstname, lastname, email, city } = user;
     // console.log(city);
-    return res.json({ token, user: { _id, firstname, lastname, email, city } });
+    return res.json({
+      token,
+      user: { _id, firstname, lastname, email, city },
+    });
   });
 };
 
