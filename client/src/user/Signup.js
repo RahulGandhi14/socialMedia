@@ -36,22 +36,31 @@ const Signup = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    setValues({ ...values, error: "" });
+    setValues({ ...values, error: false });
     signup(formData)
       .then((data) => {
         if (data?.error) {
           setValues({ ...values, error: data.error, success: false });
         } else {
-          setValues({
-            ...values,
-            firstname: "",
-            lastname: "",
-            email: "",
-            password: "",
-            city: "",
-            error: "",
-            success: true,
-          });
+          if (data == "undefined") {
+            console.log("IN_ELSE IF PART", data);
+            setValues({
+              ...values,
+              firstname: "",
+              lastname: "",
+              email: "",
+              password: "",
+              city: "",
+              error: "",
+              success: true,
+            });
+          } else {
+            setValues({
+              ...values,
+              error: "DB ISN'T CONNECTED",
+              success: false,
+            });
+          }
         }
       })
       .catch((err) => console.log(`SIGNUP ERROR: ${error}`));
@@ -168,11 +177,10 @@ const Signup = () => {
       {successMessage()}
       {errorMessage()}
       {signUpForm()}
-      <p className="text-center mt-2">
-        <h5>
-          Already have an account? <Link to="/signin">Signin Here!</Link>
-        </h5>
-      </p>
+
+      <h5 className="text-center mt-2">
+        Already have an account? <Link to="/signin">Signin Here!</Link>
+      </h5>
 
       {/* <p className="text-dark text-center">{JSON.stringify(values)}</p> */}
     </Base>
