@@ -163,7 +163,7 @@ exports.fetchIncomingReqs = (req, res) => {
 
 exports.acceptRequest = (req, res) => {
   console.log("Accepting...");
-  console.log("Req-body", req.body);
+  // console.log("Req-body", req.body);
 
   let query = {
     recipient: new ObjectId(req.profile._id),
@@ -192,7 +192,7 @@ exports.acceptRequest = (req, res) => {
       { _id: new ObjectId(req.body.requester._id) },
       {
         $push: { friends: [{ _id: new ObjectId(req.profile._id) }] },
-        $pull: { reqSent: new ObjectID(req.profile._id) },
+        $pull: { reqSent: new ObjectId(req.profile._id) },
       },
       { new: true },
       (err, updated) => {
