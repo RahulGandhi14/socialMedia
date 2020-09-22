@@ -112,7 +112,7 @@ const Profile = () => {
               <h4 className="card-title">
                 {firstname} {lastname}
               </h4>
-              <p className="card-text">From {user.city}</p>
+              <p className="card-text">From {users.city}</p>
               <Link
                 className="btn btn-primary btn-block"
                 to={`/user/update/${user._id}`}
@@ -122,7 +122,7 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <h5 className="alert alert-info my-3">Show Friends</h5>
+            <h5 className="alert alert-info my-3">Friends</h5>
             {friends.length > 0 ? (
               friends.map((friend, index) => showFriends(friend, index))
             ) : (

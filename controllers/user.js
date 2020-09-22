@@ -4,6 +4,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const { ObjectId } = require("mongodb");
 const FriendReq = require("../models/friendRequest");
+const fs = require("fs");
 const friendRequest = require("../models/friendRequest");
 
 exports.getUserById = (req, res, next, id) => {
@@ -41,6 +42,7 @@ exports.photo = (req, res, next) => {
 };
 
 exports.updateUser = (req, res) => {
+  // console.log("UPDATING...");
   let form = formidable.IncomingForm();
   form.keepExtensions = true;
 
@@ -51,7 +53,7 @@ exports.updateUser = (req, res) => {
       });
     }
 
-    const { firstname, lastname, email, city, state } = fields;
+    const { firstname, lastname, city } = fields;
 
     //UPDATE THE USER
     let user = req.profile;
