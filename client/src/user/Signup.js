@@ -42,25 +42,16 @@ const Signup = () => {
         if (data?.error) {
           setValues({ ...values, error: data.error, success: false });
         } else {
-          if (data == "undefined") {
-            console.log("IN_ELSE IF PART", data);
-            setValues({
-              ...values,
-              firstname: "",
-              lastname: "",
-              email: "",
-              password: "",
-              city: "",
-              error: "",
-              success: true,
-            });
-          } else {
-            setValues({
-              ...values,
-              error: "DB ISN'T CONNECTED",
-              success: false,
-            });
-          }
+          setValues({
+            ...values,
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            city: "",
+            error: "",
+            success: true,
+          });
         }
       })
       .catch((err) => console.log(`SIGNUP ERROR: ${error}`));

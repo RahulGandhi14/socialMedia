@@ -1,4 +1,3 @@
-import { isArguments } from "lodash";
 import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { isAuthenticated } from "../authHelper";
