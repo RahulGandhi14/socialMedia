@@ -21,6 +21,19 @@ export const getUser = (userId, token) => {
     .catch((err) => console.log(err));
 };
 
+export const fetchFriends = (userId, token) => {
+  return fetch(`${API}/user/friends/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
 export const createPost = (userId, token, postData) => {
   return fetch(`${API}/post/create/${userId}`, {
     method: "POST",
@@ -177,6 +190,20 @@ export const loadFriendsList = (userId, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export const removeFromFriendList = (userId, token, friend) => {
+  return fetch(`${API}/user/removefriend/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(friend),
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));

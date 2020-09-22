@@ -161,6 +161,29 @@ exports.fetchIncomingReqs = (req, res) => {
     });
 };
 
+exports.removeFriend = (req, res) => {
+  console.log("REMOVING FRIEND");
+  User.findByIdAndUpdate(req.profile._id, {
+    $pull: { friends: new ObjectId(req.body._id) },
+  }).exec((err, success) => {
+    if (err) {
+      return res.status(400).json({
+        error: "FAILED TO REMOVE FROM LIST-1",
+      });
+    }
+    User.findByIdAndUpdate(req.body._id, {
+      $pull: { friends: new ObjectId(req.profile._id) },
+    }).exec((err, success) => {
+      if (err) {
+        return res.status(400).json({
+          error: "FAILED TO REMOVE FROM LIST-1",
+        });
+      }
+    });
+    res.json(success.friends);
+  });
+};
+
 exports.acceptRequest = (req, res) => {
   console.log("Accepting...");
   // console.log("Req-body", req.body);
@@ -243,16 +266,16 @@ exports.showFeed = (req, res) => {
     });
 };
 
-exports.showUserFriends = (req, res) => {
-  User.findById(req.profile._id, { friends: 1, _id: 0 })
-    .populate("friends", "_id firstname lastname city")
-    .exec((err, friends) => {
-      if (err || !friends) {
+exports.getFriends = (req, res) => {
+  User.findById(req.profile._id)
+    .select("-photo")
+    .populate("friends", "_id firstname lastname")
+    .exec((err, user) => {
+      if (err) {
         return res.status(400).json({
-          error: "NO FRIENDS FOUND IN DB!",
+          error: "UNABLE FETCH FRIENDS",
         });
       }
-
-      res.json(friends);
+      res.json(user.friends);
     });
 };

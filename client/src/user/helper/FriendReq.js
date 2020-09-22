@@ -3,11 +3,11 @@ import { isAuthenticated } from "../../authHelper";
 import { getRequests, acceptRequest, rejectRequest } from "./userapicalls";
 import ImageHelper from "./ImageHelper";
 
-const FriendReq = () => {
+const FriendReq = ({ reload = undefined, setReload = (f) => f }) => {
   const [friendReqs, setFriendReqs] = useState([]);
   const [error, setError] = useState("");
   const { user, token } = isAuthenticated();
-  const [reload, setReload] = useState(false);
+  // const [reload, setReload] = useState(false);
 
   const preloadReqs = () => {
     getRequests(user._id, token)

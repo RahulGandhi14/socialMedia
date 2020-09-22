@@ -12,9 +12,10 @@ const {
   acceptRequest,
   rejectRequest,
   showFeed,
-  showUserFriends,
   getSentReqs,
   cancelFriendRequest,
+  getFriends,
+  removeFriend,
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
@@ -67,11 +68,12 @@ router.get(
   getSentReqs
 );
 
-router.get(
-  "/user/friends/:userId",
+router.get("/user/friends/:userId", isSignedIn, isAuthenticated, getFriends);
+router.delete(
+  "/user/removefriend/:userId",
   isSignedIn,
   isAuthenticated,
-  showUserFriends
+  removeFriend
 );
 
 module.exports = router;
