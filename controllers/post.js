@@ -200,7 +200,7 @@ exports.unLikePost = (req, res) => {
 };
 
 exports.commentOnPost = (req, res) => {
-  console.log("INSIDE-COMMENT", req.body);
+  // console.log("INSIDE-COMMENT", req.body);
   let newComment = new Comment();
   newComment.post = new ObjectID(req.post._id);
   newComment.user = new ObjectID(req.profile._id);

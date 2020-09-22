@@ -94,7 +94,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.sendFriendRequest = (req, res) => {
-  console.log("REQ-SENDING");
+  // console.log("REQ-SENDING");
   // console.log(req.body);
   let friendReq = new FriendReq();
   friendReq.requester = new ObjectId(req.profile._id);
@@ -124,7 +124,7 @@ exports.sendFriendRequest = (req, res) => {
 };
 
 exports.cancelFriendRequest = (req, res) => {
-  console.log("CANCELING...");
+  // console.log("CANCELING...");
   FriendReq.deleteOne({
     requester: req.profile._id,
     recipient: req.body._id,
@@ -162,7 +162,7 @@ exports.fetchIncomingReqs = (req, res) => {
 };
 
 exports.removeFriend = (req, res) => {
-  console.log("REMOVING FRIEND");
+  // console.log("REMOVING FRIEND");
   User.findByIdAndUpdate(req.profile._id, {
     $pull: { friends: new ObjectId(req.body._id) },
   }).exec((err, success) => {
@@ -185,7 +185,7 @@ exports.removeFriend = (req, res) => {
 };
 
 exports.acceptRequest = (req, res) => {
-  console.log("Accepting...");
+  // console.log("Accepting...");
   // console.log("Req-body", req.body);
 
   let query = {
